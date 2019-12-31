@@ -10,7 +10,9 @@ is the same as c*/
  const Engine=Matter.Engine;
 const World=Matter.World;
 const Bodies=Matter.Bodies;
+const Constraint=Matter.Constraint;
 
+var flag=start;
 
 
 
@@ -29,11 +31,17 @@ function setup() {
   ball3 = new Ball(600,200,30);
   ball4 = new Ball(500,150,30);
   ball5 = new Ball(400,400,30);
+
+
+  canonBall = new CanonBall(20,20);
+
+
+  shot = new ShootBall(canonBall.body,{x:70, y:height-220});
 }
 
 function draw() {
 // Remember to update the Matter Engine and set the background.
-background(0);
+background(50,50,50);
 Engine.update(engine);
 
 ground.display();
@@ -43,8 +51,20 @@ ball2.display();
 ball3.display();
 ball4.display();
 ball5.display();
+canonBall.display();
+shot.display();
+
+if(keyIsDown(UP_ARROW)){
+  shot.attach(canonBall.body)
+}
 }
 
 
-//function keyReleased() {
+function keyReleased() {
     // Call the shoot method for the cannon.
+    if (keyCode === DOWN_ARROW) {
+      flag = "launch"
+  
+      shot.shoot()
+    }
+  }
